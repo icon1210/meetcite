@@ -27,7 +27,7 @@ const STATUS: Record<AgendaItemReview["status"], { label: string; Icon: typeof C
   not_covered: { label: "Not covered", Icon: CircleSlash, tone: "text-red-600 dark:text-red-400" },
 };
 
-/** A plain-text follow-up email built from the minutes (nothing is sent anywhere by MeetMind). */
+/** A plain-text follow-up email built from the minutes (nothing is sent anywhere by MeetCite). */
 export function followUpEmail(meeting: MeetingDetail): { subject: string; body: string } {
   const s = meeting.summary;
   const lines: string[] = [
@@ -54,7 +54,7 @@ export function followUpEmail(meeting: MeetingDetail): { subject: string; body: 
     lines.push("", "Still to be resolved:");
     s.open_questions.forEach((q) => lines.push(`- ${q.text}`));
   }
-  lines.push("", "These notes were drafted with MeetMind (AI-generated) and checked against the recording.", "");
+  lines.push("", "These notes were drafted with MeetCite (AI-generated) and checked against the recording.", "");
   return { subject: `Minutes: ${meeting.title} (${formatDate(meeting.created_at)})`, body: lines.join("\n") };
 }
 
@@ -200,7 +200,7 @@ function EmailSection({ meeting }: { meeting: MeetingDetail }) {
           )}
         </div>
         <p className="text-xs text-muted-foreground">
-          MeetMind doesn't send anything: you choose who receives it.
+          MeetCite doesn't send anything: you choose who receives it.
           {tooLong && " These minutes are long, so copy them into a new email."}
         </p>
       </Card>

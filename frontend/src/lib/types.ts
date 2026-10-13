@@ -170,7 +170,7 @@ export interface Segment {
   original_text: string | null;
 }
 
-/** Result of MeetMind's automatic fact-check; "user" means written or edited by the user. */
+/** Result of MeetCite's automatic fact-check; "user" means written or edited by the user. */
 export type Verdict = "supported" | "partial" | "unsupported" | "unverified" | "user";
 
 /** Fields every AI-generated item carries: where it came from and whether that checks out. */
@@ -289,7 +289,7 @@ export interface AppConfig {
   max_upload_mb: number;
   max_duration_s: number;
   ai_mode: "real" | "fake";
-  /** Where the AI runs: on the MeetMind server ("local") or with AssemblyAI + Claude ("cloud"). */
+  /** Where the AI runs: on the MeetCite server ("local") or with AssemblyAI + Claude ("cloud"). */
   ai_provider: "local" | "cloud";
   /** New accounts need the sign-up code the administrator hands out. */
   signup_code_required: boolean;

@@ -1,4 +1,4 @@
-# MeetMind - start everything with:  docker compose up -d --build
+# MeetCite - start everything with:  docker compose up -d --build
 # Then open http://localhost:8080
 #
 # For a temporary public HTTPS demo link (Cloudflare quick tunnel):
@@ -8,7 +8,7 @@
 x-backend-env: &backend-env
   ENVIRONMENT: production
   SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
-  DATABASE_URL: postgresql+psycopg://meetmind:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/meetmind
+  DATABASE_URL: postgresql+psycopg://meetcite:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/meetcite
   DATA_DIR: /data
   TASK_MODE: celery
   REDIS_URL: redis://redis:6379/0
@@ -35,7 +35,7 @@ services:
   api:
     build: ./backend
     environment: *backend-env
-    volumes: ["meetmind-data:/data"]
+    volumes: ["meetcite-data:/data"]
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_started }
@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile.worker
     environment: *backend-env
     volumes:
-      - meetmind-data:/data
+      - meetcite-data:/data
       - model-cache:/models
       # Put your fine-tuned BART checkpoint in ./models to use it (BART_MODEL=/finetuned/bart-ami).
       - ./models:/finetuned:ro
@@ -85,12 +85,12 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: meetmind
+      POSTGRES_USER: meetcite
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: meetmind
+      POSTGRES_DB: meetcite
     volumes: ["postgres-data:/var/lib/postgresql/data"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U meetmind"]
+      test: ["CMD-SHELL", "pg_isready -U meetcite"]
       interval: 5s
       retries: 10
     restart: unless-stopped
@@ -102,7 +102,7 @@ services:
     depends_on: [frontend]
 
 volumes:
-  meetmind-data:
+  meetcite-data:
   postgres-data:
   model-cache:
   ollama-models:

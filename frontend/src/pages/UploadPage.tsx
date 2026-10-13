@@ -179,7 +179,7 @@ export default function UploadPage() {
             <Label htmlFor="series">Meeting series (optional)</Label>
             <SeriesSelect id="series" value={seriesId} onChange={setSeriesId} disabled={uploading} />
             <p className="text-xs text-muted-foreground">
-              Part of a recurring meeting? MeetMind carries open actions over and spots changed decisions.
+              Part of a recurring meeting? MeetCite carries open actions over and spots changed decisions.
             </p>
           </div>
           <div className="space-y-1.5">

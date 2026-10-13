@@ -72,7 +72,7 @@ function SpeakerChip({ speaker, index, meetingId }: { speaker: Speaker; index: n
         <Pencil className="size-3" aria-hidden />
       </button>
       {suggestion && suggestion !== speaker.display_name && (
-        // A name MeetMind found in the conversation. It is never applied without the user's say-so.
+        // A name MeetCite found in the conversation. It is never applied without the user's say-so.
         <button
           type="button"
           onClick={() => rename.mutate(suggestion)}

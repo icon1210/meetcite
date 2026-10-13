@@ -4,7 +4,7 @@
 Fill in the bracketed parts and attach this to the ethics application.
 
 ## Aim
-Find out how accurate, complete, useful and easy to use participants find MeetMind's transcripts,
+Find out how accurate, complete, useful and easy to use participants find MeetCite's transcripts,
 summaries and action items.
 
 ## Participants
@@ -12,7 +12,7 @@ summaries and action items.
 No incentives that could pressure participation. Session length: under 30 minutes.
 
 ## Materials
-* MeetMind running locally (`docker compose up`), one account per participant created by the researcher.
+* MeetCite running locally (`docker compose up`), one account per participant created by the researcher.
 * A meeting recording that every person in it has consented to being used (e.g. a project meeting
   recorded for this purpose), **or** an AMI test meeting the participant watches first.
 * The consent form, task sheet and questionnaire below.
@@ -32,5 +32,5 @@ No incentives that could pressure participation. Session length: under 30 minute
 
 ## Data handling (UK GDPR)
 * Participant IDs (P01…) only; names stay on the consent forms, stored separately and securely.
-* Recordings and transcripts are deleted from MeetMind (Delete button) straight after each session.
+* Recordings and transcripts are deleted from MeetCite (Delete button) straight after each session.
 * Notes and questionnaire answers are anonymised and deleted at the end of the project.

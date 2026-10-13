@@ -1,6 +1,6 @@
 """Cloud speech-to-text with AssemblyAI: transcription and speaker separation in one request.
 
-Used when AI_PROVIDER=cloud, so MeetMind can run on an ordinary server with no GPU. The audio
+Used when AI_PROVIDER=cloud, so MeetCite can run on an ordinary server with no GPU. The audio
 is compressed, uploaded to AssemblyAI, and the timed words and speaker turns come back in the
 same shapes the local Whisper + pyannote stages produce, so alignment and everything after it
 is unchanged.
@@ -51,7 +51,7 @@ def compress_for_upload(wav: Path, dst: Path) -> Path:
 
 
 def _speaker_label(raw: str | None) -> str:
-    # AssemblyAI labels speakers "A", "B", ...; the rest of MeetMind expects SPEAKER_00, SPEAKER_01, ...
+    # AssemblyAI labels speakers "A", "B", ...; the rest of MeetCite expects SPEAKER_00, SPEAKER_01, ...
     if not raw:
         return "SPEAKER_00"
     index = sum((ord(c) - 64) * 26**i for i, c in enumerate(reversed(raw.upper()))) - 1 if raw.isalpha() else 0
@@ -59,7 +59,7 @@ def _speaker_label(raw: str | None) -> str:
 
 
 def parse_transcript(data: dict) -> tuple[list[Word], list[Turn]]:
-    """Convert an AssemblyAI transcript (times in milliseconds) to MeetMind words and turns."""
+    """Convert an AssemblyAI transcript (times in milliseconds) to MeetCite words and turns."""
     words = [
         Word(text=str(w["text"]).strip(), start=round(w["start"] / 1000, 2), end=round(w["end"] / 1000, 2))
         for w in data.get("words") or []

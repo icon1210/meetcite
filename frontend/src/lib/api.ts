@@ -21,7 +21,7 @@ import type {
   User,
 } from "./types";
 
-const TOKEN_KEY = "meetmind-token";
+const TOKEN_KEY = "meetcite-token";
 
 /**
  * Where the API lives. Empty (the default) means the same site, which suits the dev proxy and Docker.
@@ -85,7 +85,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   try {
     res = await fetch(apiUrl(path), { ...init, headers });
   } catch {
-    throw new ApiError(0, "Cannot reach the MeetMind server. Check that it is running.");
+    throw new ApiError(0, "Cannot reach the MeetCite server. Check that it is running.");
   }
   if (res.status === 401 && token) onUnauthorized();
   if (!res.ok) {

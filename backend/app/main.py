@@ -1,4 +1,4 @@
-"""MeetMind API entry point.
+"""MeetCite API entry point.
 
 Run locally with:  uvicorn app.main:app --reload
 Interactive API documentation is served at /docs.
@@ -67,7 +67,7 @@ def _recover_interrupted_jobs() -> None:
 
 settings = get_settings()
 app = FastAPI(
-    title="MeetMind API",
+    title="MeetCite API",
     description="AI-powered meeting transcription and summarization.",
     version="1.0.0",
     lifespan=lifespan,

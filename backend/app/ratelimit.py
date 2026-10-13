@@ -1,7 +1,7 @@
 """A small in-memory rate limiter for the sign-in and sign-up endpoints (spec: brute-force protection).
 
 It counts requests per client address (and, for sign-in, per email) in a sliding window. Memory
-is per process, which suits MeetMind's single API process; a multi-server deployment would move
+is per process, which suits MeetCite's single API process; a multi-server deployment would move
 this to Redis. Behind a reverse proxy or tunnel every request arrives from the proxy, so set
 TRUSTED_PROXY_HEADER (e.g. CF-Connecting-IP for Cloudflare) to count real client addresses.
 """

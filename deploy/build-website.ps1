@@ -1,8 +1,8 @@
-# Builds the MeetMind website for shared hosting (e.g. HostAfrica) and packs it into one zip.
+# Builds the MeetCite website for shared hosting (e.g. HostAfrica) and packs it into one zip.
 #
 #   .\deploy\build-website.ps1 -ApiUrl https://api.your-domain.com
 #
-# Then upload deploy\meetmind-website.zip into the website folder in DirectAdmin's File Manager
+# Then upload deploy\meetcite-website.zip into the website folder in DirectAdmin's File Manager
 # and extract it there. See docs\DEPLOYMENT.md.
 param(
     [Parameter(Mandatory = $true)]
@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 if ($ApiUrl -notmatch '^https://') { throw "ApiUrl must start with https:// (browsers block an http API from an https site)." }
 
 $root = Split-Path $PSScriptRoot -Parent
-$out = Join-Path $PSScriptRoot "meetmind-website.zip"
+$out = Join-Path $PSScriptRoot "meetcite-website.zip"
 
 Push-Location (Join-Path $root "frontend")
 try {

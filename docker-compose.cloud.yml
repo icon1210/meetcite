@@ -1,4 +1,4 @@
-# MeetMind with cloud AI (AssemblyAI + Claude) - for a small Linux server with NO graphics card,
+# MeetCite with cloud AI (AssemblyAI + Claude) - for a small Linux server with NO graphics card,
 # e.g. a HostAfrica VPS. Everything (website, API, HTTPS) runs from this one file.
 #
 #   1. Copy .env.cloud.example to .env and fill it in (domain, secret, the two API keys).
@@ -10,7 +10,7 @@
 x-backend-env: &backend-env
   ENVIRONMENT: production
   SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
-  DATABASE_URL: sqlite:////data/meetmind.db
+  DATABASE_URL: sqlite:////data/meetcite.db
   DATA_DIR: /data
   TASK_MODE: thread
   AI_MODE: real
@@ -30,7 +30,7 @@ services:
   api:
     build: ./backend
     environment: *backend-env
-    volumes: ["meetmind-data:/data"]
+    volumes: ["meetcite-data:/data"]
     restart: unless-stopped
 
   frontend:
@@ -51,5 +51,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  meetmind-data:
+  meetcite-data:
   caddy-data:

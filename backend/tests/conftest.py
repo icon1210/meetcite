@@ -9,7 +9,7 @@ import tempfile
 from collections.abc import Iterator
 from pathlib import Path
 
-_tmp = Path(tempfile.mkdtemp(prefix="meetmind-test-"))
+_tmp = Path(tempfile.mkdtemp(prefix="meetcite-test-"))
 os.environ.update(
     {
         "ENVIRONMENT": "test",

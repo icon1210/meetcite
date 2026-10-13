@@ -127,7 +127,7 @@ function Header() {
       data-scrolled={scrolled}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" aria-label="MeetMind home" className="shrink-0">
+        <Link to="/" aria-label="MeetCite home" className="shrink-0">
           <Logo />
         </Link>
         <nav aria-label="Sections" className="hidden items-center gap-1 md:flex">
@@ -174,7 +174,7 @@ function Header() {
 }
 
 /* ------------------------------------------------------------------------------------------------
- * Sample meeting shown in the previews. It is the same sample MeetMind's demo mode produces, so
+ * Sample meeting shown in the previews. It is the same sample MeetCite's demo mode produces, so
  * the previews show what the product really outputs. Clearly labelled as sample data.
  * ---------------------------------------------------------------------------------------------- */
 interface Line {
@@ -288,12 +288,12 @@ function ProductPreview() {
   const items = PREVIEW_TABS.find((t) => t.id === tab)!.items;
 
   return (
-    <figure className="lp-window" aria-label="Interactive preview of a MeetMind meeting page">
+    <figure className="lp-window" aria-label="Interactive preview of a MeetCite meeting page">
       <div className="lp-window-bar">
         <span className="dot" />
         <span className="dot" />
         <span className="dot" />
-        <span className="lp-muted ml-3 truncate text-xs">MeetMind · Beta launch planning</span>
+        <span className="lp-muted ml-3 truncate text-xs">MeetCite · Beta launch planning</span>
         <span className="lp-pill lp-pill-info ml-auto">Sample data</span>
       </div>
       <div className="grid md:grid-cols-[1.1fr_1fr]">
@@ -642,19 +642,19 @@ type Provider = "local" | "cloud" | undefined;
 /** Where recordings are processed - stated per the server's actual setting, never assumed. */
 const PROCESSING: Record<"local" | "cloud" | "unknown", { title: string; text: string; faq: string }> = {
   local: {
-    title: "Processed on the MeetMind server",
-    text: "This MeetMind runs transcription (Whisper) and summarisation (Llama via Ollama) on its own server. Recordings are not sent to an AI company.",
-    faq: "No. This MeetMind is set up to process recordings, transcripts and minutes with AI models running on its own server.",
+    title: "Processed on the MeetCite server",
+    text: "This MeetCite runs transcription (Whisper) and summarisation (Llama via Ollama) on its own server. Recordings are not sent to an AI company.",
+    faq: "No. This MeetCite is set up to process recordings, transcripts and minutes with AI models running on its own server.",
   },
   cloud: {
     title: "Processed with trusted AI services",
-    text: "This MeetMind sends the audio to AssemblyAI for transcription and the transcript to Anthropic's Claude for the minutes. Recordings are not public and are deleted with the meeting.",
-    faq: "Yes, on this MeetMind. The audio is sent to AssemblyAI to transcribe and the transcript to Anthropic (Claude) to write and check the minutes. MeetMind can instead be set up to run everything on its own server.",
+    text: "This MeetCite sends the audio to AssemblyAI for transcription and the transcript to Anthropic's Claude for the minutes. Recordings are not public and are deleted with the meeting.",
+    faq: "Yes, on this MeetCite. The audio is sent to AssemblyAI to transcribe and the transcript to Anthropic (Claude) to write and check the minutes. MeetCite can instead be set up to run everything on its own server.",
   },
   unknown: {
     title: "Local or cloud AI",
-    text: "MeetMind can run its AI on its own server or with AssemblyAI and Claude. The administrator chooses, and this page shows which is in use.",
-    faq: "It depends on how this MeetMind is set up: either everything runs on its own server, or the audio goes to AssemblyAI and the transcript to Anthropic (Claude).",
+    text: "MeetCite can run its AI on its own server or with AssemblyAI and Claude. The administrator chooses, and this page shows which is in use.",
+    faq: "It depends on how this MeetCite is set up: either everything runs on its own server, or the audio goes to AssemblyAI and the transcript to Anthropic (Claude).",
   },
 };
 
@@ -684,7 +684,7 @@ const FAQ: { q: string; a: string }[] = [
     a: "It means the automatic check found that the cited transcript lines state the claim. The check is itself an AI model and can be wrong, which is why every claim shows its evidence and can be reviewed by a person.",
   },
   {
-    q: "Can MeetMind tell who said what?",
+    q: "Can MeetCite tell who said what?",
     a: "It separates different voices when speaker separation is enabled, and labels them Speaker 1, Speaker 2 and so on. That does not establish who a person is. Real names come from a Teams or Zoom transcript file, or from you renaming a speaker.",
   },
   {
@@ -742,7 +742,7 @@ const CAPABILITIES: [string, string][] = [
   ["Local or cloud AI", "#f87171"],
 ];
 
-/** Scrolling strip of what MeetMind does (its own capabilities, not customer logos). */
+/** Scrolling strip of what MeetCite does (its own capabilities, not customer logos). */
 function CapabilityStrip() {
   const chips = (hidden: boolean) =>
     CAPABILITIES.map(([label, color]) => (
@@ -753,7 +753,7 @@ function CapabilityStrip() {
     ));
   return (
     <div className="lp-marquee border-t border-white/10 py-5">
-      <ul className="lp-marquee-track" aria-label="What MeetMind does">
+      <ul className="lp-marquee-track" aria-label="What MeetCite does">
         {chips(false)}
         {chips(true)}
       </ul>
@@ -845,7 +845,7 @@ export default function LandingPage() {
               </Reveal>
               <Reveal delay={120}>
                 <p className="lp-muted mx-auto mt-6 max-w-2xl text-lg leading-relaxed">
-                  MeetMind transforms meeting recordings into searchable transcripts, summaries, decisions and action
+                  MeetCite transforms meeting recordings into searchable transcripts, summaries, decisions and action
                   items, each linked to the exact transcript evidence it came from, so you can check what the AI wrote.
                 </p>
               </Reveal>
@@ -891,7 +891,7 @@ export default function LandingPage() {
                 Minutes you can trace back to what was said
               </h2>
               <p className="lp-muted mt-4 text-lg">
-                Most meeting summaries ask you to trust them. MeetMind shows its working.
+                Most meeting summaries ask you to trust them. MeetCite shows its working.
               </p>
             </Reveal>
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -911,7 +911,7 @@ export default function LandingPage() {
               <div className="max-w-2xl">
                 <p className="lp-section-label">Specs</p>
                 <h2 id="specs-title" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-                  Everything MeetMind can do, at a glance
+                  Everything MeetCite can do, at a glance
                 </h2>
                 <p className="lp-muted mt-4 text-lg">
                   The formats it accepts, how fast it works, the AI behind it and what you get back.
@@ -990,7 +990,7 @@ export default function LandingPage() {
                 A citation is not proof until the text agrees
               </h2>
               <p className="lp-muted mt-4 text-lg">
-                MeetMind checks that each cited line exists, then compares the meaning of the claim with that line. Weak
+                MeetCite checks that each cited line exists, then compares the meaning of the claim with that line. Weak
                 claims are flagged, not hidden. Select an example.
               </p>
             </Reveal>
@@ -1009,7 +1009,7 @@ export default function LandingPage() {
                 Does grounding make summaries more reliable?
               </h2>
               <p className="lp-muted mt-4 text-lg leading-relaxed">
-                MeetMind is the software for an MSc study of evidence-grounded summarisation. It asks to what extent
+                MeetCite is the software for an MSc study of evidence-grounded summarisation. It asks to what extent
                 requiring every claim to cite transcript evidence improves the factual reliability and verifiability of
                 meeting summaries, compared with a baseline that cites nothing.
               </p>
@@ -1044,7 +1044,7 @@ export default function LandingPage() {
                   <li>Processing time and resource use</li>
                 </ul>
                 <p className="lp-muted mt-4 text-xs">
-                  Evaluation uses the AMI Meeting Corpus and human claim labels collected in MeetMind.
+                  Evaluation uses the AMI Meeting Corpus and human claim labels collected in MeetCite.
                 </p>
               </Reveal>
             </div>
@@ -1105,7 +1105,7 @@ export default function LandingPage() {
                     An MSc research project
                   </h2>
                   <p className="lp-muted mt-4 leading-relaxed">
-                    MeetMind was built by Olayinka Williams Ajibola for the MSc Information Technology programme at the
+                    MeetCite was built by Olayinka Williams Ajibola for the MSc Information Technology programme at the
                     University of the West of Scotland. It is a research prototype for studying how AI meeting summaries
                     can be made checkable, not a commercial service.
                   </p>

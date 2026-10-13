@@ -11,8 +11,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt weasyprint==63.1
 
 COPY . .
-RUN useradd --create-home meetmind && mkdir -p /data && chown meetmind /data
-USER meetmind
+RUN useradd --create-home meetcite && mkdir -p /data && chown meetcite /data
+USER meetcite
 
 EXPOSE 8000
 # Apply database migrations, then start the API.

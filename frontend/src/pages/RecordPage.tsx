@@ -71,7 +71,7 @@ export default function RecordPage() {
   useEffect(() => {
     if (!recording) return;
     const previous = document.title;
-    document.title = `● REC ${formatTimestamp(recorder.elapsed)} · MeetMind`;
+    document.title = `● REC ${formatTimestamp(recorder.elapsed)} · MeetCite`;
     const warn = (e: BeforeUnloadEvent) => e.preventDefault();
     window.addEventListener("beforeunload", warn);
     return () => {

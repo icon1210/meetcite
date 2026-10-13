@@ -93,7 +93,7 @@ export function MemoryTab({ meeting, segmentsByPosition, onJump }: TabProps) {
           <Buddy mood="idle" size={90} />
           <p className="font-medium">This meeting isn't part of a series yet.</p>
           <p className="max-w-md text-sm text-muted-foreground">
-            Add it to a series (for example "Weekly team meeting") and MeetMind will carry open actions over between
+            Add it to a series (for example "Weekly team meeting") and MeetCite will carry open actions over between
             meetings, keep one decision history and flag decisions that change.
           </p>
         </Card>

@@ -1,6 +1,6 @@
 """Fact-check every generated point against the transcript lines it cites.
 
-Mainstream meeting tools ask users to trust their summaries. MeetMind instead
+Mainstream meeting tools ask users to trust their summaries. MeetCite instead
 runs a second, independent pass: each claim (key point, topic summary, speaker
 position, decision, action item, open question, risk) is shown to a "verifier"
 together with only the transcript lines it cites (plus one neighbouring line

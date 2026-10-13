@@ -1,4 +1,4 @@
-"""Meeting series: MeetMind's project memory across many meetings.
+"""Meeting series: MeetCite's project memory across many meetings.
 
 A series groups recurring meetings (e.g. a weekly team meeting or thesis supervision). Its page
 shows every meeting, one action tracker (actions carry over until they are done), one decision

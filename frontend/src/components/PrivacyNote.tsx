@@ -8,7 +8,7 @@ export function PrivacyNote() {
   const where =
     config.data?.ai_provider === "cloud"
       ? "processed securely with our trusted AI partners"
-      : "processed on MeetMind's own server";
+      : "processed on MeetCite's own server";
   return (
     <p className="flex items-center gap-2 text-xs text-muted-foreground">
       <Lock className="size-3.5 shrink-0" aria-hidden />

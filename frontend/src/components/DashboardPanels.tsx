@@ -63,7 +63,7 @@ export function SeriesPanel() {
       )}
       {series.data && series.data.length === 0 && !adding && (
         <Card className="p-5 text-sm text-muted-foreground">
-          Group recurring meetings, such as a weekly team meeting or thesis supervision, into a series. MeetMind then
+          Group recurring meetings, such as a weekly team meeting or thesis supervision, into a series. MeetCite then
           carries open actions over, keeps one decision history and flags decisions that change.
         </Card>
       )}

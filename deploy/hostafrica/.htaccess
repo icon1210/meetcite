@@ -1,4 +1,4 @@
-# MeetMind website on shared (Apache) hosting: static files only - the API runs elsewhere.
+# MeetCite website on shared (Apache) hosting: static files only - the API runs elsewhere.
 
 # The parent folder may run another app (e.g. a Node.js site) through Passenger; keep it out of here.
 <IfModule mod_passenger.c>

@@ -57,7 +57,7 @@ test("user can process, edit, export and delete a meeting", async ({ page }) => 
     .click();
   await expect(page.getByRole("tab", { name: /Transcript/ })).toHaveAttribute("aria-selected", "true");
 
-  // Accept the name MeetMind found ("I'm Priya"), then rename another speaker by hand (US9).
+  // Accept the name MeetCite found ("I'm Priya"), then rename another speaker by hand (US9).
   await page.getByRole("button", { name: /Use the suggested name Priya for Speaker 1/ }).click();
   await expect(page.getByRole("button", { name: "Rename Priya" })).toBeVisible();
   await page.getByRole("button", { name: "Rename Speaker 2" }).click();
@@ -191,7 +191,7 @@ test("visitors see the landing page and can sign up from it", async ({ page }) =
 
   await page.getByRole("link", { name: "Get Started" }).first().click();
   await expect(page.getByRole("heading", { name: "Create your account" })).toBeVisible();
-  await page.getByRole("link", { name: "MeetMind home" }).click();
+  await page.getByRole("link", { name: "MeetCite home" }).click();
   await page.getByRole("link", { name: "Sign In" }).first().click();
   await expect(page.getByRole("heading", { name: "Welcome back" })).toBeVisible();
 });

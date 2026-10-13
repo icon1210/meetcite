@@ -1,4 +1,4 @@
-# MeetMind
+# MeetCite
 
 **AI-powered meeting transcription and summarization.** Upload a meeting recording and get a
 speaker-labelled transcript, a concise summary, key decisions, and action items with owners and
@@ -13,7 +13,7 @@ MSc Information Technology project, University of the West of Scotland.
 ## Core principle: evidence-grounded meeting records
 
 Every important AI-generated outcome should be **traceable, reviewable and honest about uncertainty**
-(full specification, §1). MeetMind therefore:
+(full specification, §1). MeetCite therefore:
 
 | Feature | What it does |
 |---|---|
@@ -23,7 +23,7 @@ Every important AI-generated outcome should be **traceable, reviewable and hones
 | **Human review** | Each claim can be labelled with the 5-point rubric (supported, partially supported, unsupported, contradicted, unclear). These labels are the evidence for RQ2 |
 | **AI check (aid only)** | An automatic second pass rates each claim against its cited lines. It is labelled "AI check" because a valid citation or an AI rating does not prove a claim (spec §13) |
 | **C1 vs C2 comparison** | The same local LLM with a plain prompt (C1 baseline) and with citations, schema and evidence checks (C2) are stored side by side for the same meeting (Compare tab) |
-| **Real speaker names** | Attach the Teams/Zoom transcript (.vtt) to get participants' real names, or accept names MeetMind finds in introductions ("I'm Priya") |
+| **Real speaker names** | Attach the Teams/Zoom transcript (.vtt) to get participants' real names, or accept names MeetCite finds in introductions ("I'm Priya") |
 | **Browser recording** | Record a Teams/Zoom/Meet call from Chrome or Edge, with a mandatory consent confirmation and a visible recording indicator (spec §14) |
 | **Reproducibility** | Each summary stores its model, configuration, prompt version and timings; experiments are saved to `evaluation_runs` |
 
@@ -109,7 +109,7 @@ Public demo link (HTTPS, no port forwarding): `docker compose --profile public u
 **Putting it online:** see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) (website on shared hosting, AI on a GPU
 machine). What is and isn't built yet: [docs/AUDIT.md](docs/AUDIT.md).
 
-**Day-to-day start:** once installed, `.\start-meetmind.ps1` (project root) starts Ollama, the API and the website.
+**Day-to-day start:** once installed, `.\start-meetcite.ps1` (project root) starts Ollama, the API and the website.
 
 **Keep data out of cloud-synced folders.** If the project sits in OneDrive/Dropbox, set `DATA_DIR` and
 `DATABASE_URL` in `backend/.env` to a local folder (e.g. `DATA_DIR=C:/MeetMindData`,
@@ -130,7 +130,7 @@ API documentation (interactive): http://localhost:8000/docs
 | Backend lint / types | `ruff check app tests` · `mypy app` | clean |
 | Frontend unit tests (Vitest + RTL) | `cd frontend && npm test` | 10 passing |
 | Frontend lint / types / build | `npm run lint` · `npm run typecheck` · `npm run build` | clean |
-| End-to-end (Playwright) | `npm run e2e` (stop the MeetMind API first) | 4 passing |
+| End-to-end (Playwright) | `npm run e2e` (stop the MeetCite API first) | 4 passing |
 
 The tests cover alignment and chunking logic, JSON validation and retries, map-reduce summarization,
 source checking, rule-based extraction, authentication, **access control between users**, upload

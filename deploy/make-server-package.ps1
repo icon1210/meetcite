@@ -1,4 +1,4 @@
-# Packs the MeetMind source code into one zip for uploading to a server (VPS).
+# Packs the MeetCite source code into one zip for uploading to a server (VPS).
 #
 #   .\deploy\make-server-package.ps1
 #
@@ -6,7 +6,7 @@
 # node_modules, build output, caches, local data and your .env files with API keys.
 $ErrorActionPreference = "Stop"
 $root = Split-Path $PSScriptRoot -Parent
-$out = Join-Path $PSScriptRoot "meetmind-server.zip"
+$out = Join-Path $PSScriptRoot "meetcite-server.zip"
 
 $skipDirs = @(".venv", ".venv-gpu", "node_modules", "dist", "test-results", "playwright-report", ".mypy_cache",
     ".pytest_cache", ".ruff_cache", "__pycache__", "data", "data-demo", "data-e2e", ".git", ".claude")
@@ -25,7 +25,7 @@ try {
         -not $inSkippedFolder -and -not $isSkippedFile
     } | ForEach-Object {
         $name = $_.FullName.Substring($root.Length + 1).Replace('\', '/')
-        [void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $_.FullName, "meetmind/$name")
+        [void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $_.FullName, "meetcite/$name")
         $count++
     }
 }

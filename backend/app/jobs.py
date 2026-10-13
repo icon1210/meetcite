@@ -16,7 +16,7 @@ _executor: ThreadPoolExecutor | None = None
 def _thread_pool() -> ThreadPoolExecutor:
     global _executor
     if _executor is None:
-        _executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="meetmind-job")
+        _executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="meetcite-job")
     return _executor
 
 

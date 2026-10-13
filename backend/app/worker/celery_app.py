@@ -10,7 +10,7 @@ from app.config import get_settings
 
 settings = get_settings()
 
-celery_app = Celery("meetmind", broker=settings.redis_url, backend=settings.redis_url, include=["app.worker.tasks"])
+celery_app = Celery("meetcite", broker=settings.redis_url, backend=settings.redis_url, include=["app.worker.tasks"])
 celery_app.conf.update(
     task_acks_late=True,  # if the worker crashes mid-job, the job is not lost
     worker_prefetch_multiplier=1,  # take one long job at a time

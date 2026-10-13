@@ -89,7 +89,7 @@ export function Logo() {
           <rect x="22" y="11" width="3" height="10" rx="1.5" />
         </g>
       </svg>
-      MeetMind
+      MeetCite
     </span>
   );
 }
@@ -124,12 +124,12 @@ export function AppLayout({ children }: { children: ReactNode }) {
         {/* Thin sunset stripe linking the app to the landing page's palette. */}
         <div className="h-1 bg-gradient-to-r from-orange-500 via-rose-500 to-fuchsia-500" aria-hidden />
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-4">
-          <Link to="/" aria-label="MeetMind home">
+          <Link to="/" aria-label="MeetCite home">
             <Logo />
           </Link>
           <nav className="flex items-center gap-1" aria-label="Main">
             <Button asChild size="sm" variant="ghost">
-              <Link to="/welcome" aria-label="MeetMind home page">
+              <Link to="/welcome" aria-label="MeetCite home page">
                 <Home /> <span className="hidden md:inline">Home</span>
               </Link>
             </Button>

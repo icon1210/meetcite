@@ -42,7 +42,7 @@ Results are appended to CSV files in `research/results/`.
 * **ROUGE** uses `rougeLsum` with one sentence per line; **BERTScore** is rescaled with the baseline.
 * **E4** hides model identity behind codes (`M1`, `M2`…) so annotation is blind; ideally a second annotator
   labels a subset so you can report agreement (Cohen's kappa).
-* **Automatic fact-checker (novel contribution).** MeetMind's verifier labels every generated point as
+* **Automatic fact-checker (novel contribution).** MeetCite's verifier labels every generated point as
   supported, partial or unsupported. The E3 outputs keep the notes, so after the manual E4 annotation you can
   measure how well the automatic labels agree with the human ones (accuracy, Cohen's kappa). That answers
   whether automatic verification can be trusted to flag hallucinations, which strengthens RQ2.

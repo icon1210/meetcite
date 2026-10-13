@@ -2,7 +2,7 @@
 
 The browser streams the recording's audio straight to AssemblyAI's real-time service using a
 short-lived token issued here (the API key stays on the server). Quick notes - likely decisions,
-actions and questions - come from MeetMind's keyword rules, so they are instant and cost nothing;
+actions and questions - come from MeetCite's keyword rules, so they are instant and cost nothing;
 the full, evidence-checked minutes are produced as usual once the recording is uploaded.
 """
 

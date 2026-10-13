@@ -1,7 +1,7 @@
 /**
  * Turns deadlines as people say them ("by Wednesday", "tomorrow", "next week", "14 October")
  * into dates, counted from the day of the meeting. Vague deadlines ("ASAP", "soon") return null:
- * MeetMind never guesses a date that was not stated.
+ * MeetCite never guesses a date that was not stated.
  */
 
 const WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -119,7 +119,7 @@ export function buildIcs(reminders: Reminder[]): string {
   const events = reminders.map((r) =>
     [
       "BEGIN:VEVENT",
-      `UID:${r.uid}@meetmind`,
+      `UID:${r.uid}@meetcite`,
       `DTSTAMP:${stamp}`,
       `DTSTART;VALUE=DATE:${icsDate(r.date)}`,
       `DTEND;VALUE=DATE:${icsDate(addDays(r.date, 1))}`,
@@ -136,7 +136,7 @@ export function buildIcs(reminders: Reminder[]): string {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//MeetMind//Action reminders//EN",
+    "PRODID:-//MeetCite//Action reminders//EN",
     ...events,
     "END:VCALENDAR",
   ].join("\r\n");

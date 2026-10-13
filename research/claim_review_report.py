@@ -1,6 +1,6 @@
 """RQ2 analysis: human factual-support labels per configuration, and inter-reviewer agreement.
 
-Reviewers label claims in the MeetMind interface (Review buttons, spec §21 rubric). This
+Reviewers label claims in the MeetCite interface (Review buttons, spec §21 rubric). This
 script reads those labels from the database and reports, per configuration:
 
   * the distribution of labels (supported / partial / unsupported / contradicted / unclear);
@@ -9,7 +9,7 @@ script reads those labels from the database and reports, per configuration:
   * Cohen's kappa between two reviewers on the claims both labelled (Cohen, 1960).
 
 Point it at the app's database with DATABASE_URL, e.g.
-  set DATABASE_URL=sqlite:///backend/data/meetmind.db
+  set DATABASE_URL=sqlite:///backend/data/meetcite.db
   python research/claim_review_report.py --reviewers alice@uni.ac.uk bob@uni.ac.uk
 
 Significance is not claimed here; report intervals and let the sample size speak (spec §21).

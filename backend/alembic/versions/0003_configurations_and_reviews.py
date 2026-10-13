@@ -117,7 +117,7 @@ def upgrade() -> None:
     # Meetings whose notes were removed above can be re-summarized from their transcript.
     op.execute("UPDATE meetings SET status = 'failed' WHERE status = 'completed'")
     op.execute(
-        "UPDATE jobs SET error = 'MeetMind was upgraded. Press Retry to regenerate the notes from the transcript.' "
+        "UPDATE jobs SET error = 'MeetCite was upgraded. Press Retry to regenerate the notes from the transcript.' "
         "WHERE meeting_id IN (SELECT id FROM meetings WHERE status = 'failed')"
     )
 

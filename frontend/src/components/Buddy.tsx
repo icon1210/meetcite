@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * "Mindy", MeetMind's animated companion. Its face shows what MeetMind is doing:
+ * "Mindy", MeetCite's animated companion. Its face shows what MeetCite is doing:
  *   idle        - blinks, sways and follows the pointer with its eyes
  *   listening   - headphones on; the mouth moves with the incoming sound (recording, transcribing)
  *   thinking    - looks up, thought bubbles (preparing, identifying speakers)
@@ -44,9 +44,9 @@ export function useAnnouncedMood(base: Mood): Mood {
       window.clearTimeout(timer);
       timer = window.setTimeout(() => setOverride(null), 6000);
     };
-    window.addEventListener("meetmind:announce", onAnnounce);
+    window.addEventListener("meetcite:announce", onAnnounce);
     return () => {
-      window.removeEventListener("meetmind:announce", onAnnounce);
+      window.removeEventListener("meetcite:announce", onAnnounce);
       window.clearTimeout(timer);
     };
   }, []);
@@ -273,7 +273,7 @@ const BUBBLE_STYLES: Record<BubbleVariant, string> = {
 };
 
 /**
- * Mindy with a speech bubble: she delivers MeetMind's messages, errors and warnings included.
+ * Mindy with a speech bubble: she delivers MeetCite's messages, errors and warnings included.
  * The message is real text; errors use role="alert" so screen readers announce them at once.
  */
 export function BuddyWithMessage({

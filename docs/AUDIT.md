@@ -1,4 +1,4 @@
-# MeetMind requirement audit
+# MeetCite requirement audit
 
 Audit of the code against the **Master Development Prompt** and the **Premium Landing Page
 Design Requirements**. Last updated 8 October 2026.

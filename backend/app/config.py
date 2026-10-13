@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     # --- Core -------------------------------------------------------------
-    app_name: str = "MeetMind"
+    app_name: str = "MeetCite"
     environment: Literal["development", "production", "test"] = "development"
     secret_key: str = "change-me-in-.env"
     access_token_expire_minutes: int = 60
@@ -30,7 +30,7 @@ class Settings(BaseSettings):
 
     # --- Storage ----------------------------------------------------------
     # SQLite is used for quick local development; Docker Compose sets a PostgreSQL URL.
-    database_url: str = "sqlite:///./data/meetmind.db"
+    database_url: str = "sqlite:///./data/meetcite.db"
     data_dir: Path = Path("./data")
     max_upload_mb: int = 1024
     max_duration_s: int = 2 * 60 * 60  # two-hour limit (spec §5)

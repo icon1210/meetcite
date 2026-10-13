@@ -31,7 +31,7 @@ function AuthShell({ title, subtitle, children }: { title: string; subtitle: str
     <div className="flex min-h-screen flex-col">
       <div className="h-1 bg-gradient-to-r from-orange-500 via-rose-500 to-fuchsia-500" aria-hidden />
       <header className="flex items-center justify-between px-4 py-3 sm:px-8">
-        <Link to="/" aria-label="MeetMind home">
+        <Link to="/" aria-label="MeetCite home">
           <Logo />
         </Link>
         <ThemeToggle />

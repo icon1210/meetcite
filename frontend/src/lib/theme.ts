@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 type Theme = "light" | "dark";
-const KEY = "meetmind-theme";
+const KEY = "meetcite-theme";
 
 export function useTheme(): [Theme, () => void] {
   const [theme, setTheme] = useState<Theme>(() =>

@@ -1,7 +1,7 @@
 """Putting real names on speakers.
 
 Speaker diarization only says *that* voices differ ("SPEAKER_00", "SPEAKER_01").
-MeetMind gets names in two ways:
+MeetCite gets names in two ways:
 
 1. Meeting-platform transcript (most reliable). Teams and Zoom can export a
    transcript (.vtt) that records who was speaking when, using participants'

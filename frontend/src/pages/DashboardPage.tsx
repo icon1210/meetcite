@@ -221,7 +221,7 @@ function MeetingCard({ m, onDelete }: { m: MeetingListItem; onDelete: () => void
           )}
         </div>
         <div className="relative z-10 flex items-center justify-between border-t px-5 py-2 text-xs text-muted-foreground">
-          <span>{m.source === "browser" ? "Recorded in MeetMind" : "Uploaded"}</span>
+          <span>{m.source === "browser" ? "Recorded in MeetCite" : "Uploaded"}</span>
           <Button
             variant="ghost"
             size="icon"
@@ -411,7 +411,7 @@ export default function DashboardPage() {
               <>
                 <p className="text-lg font-semibold">No meetings yet</p>
                 <p className="max-w-sm text-sm text-muted-foreground">
-                  Upload an MP3, WAV, M4A, MP4 or WEBM recording of up to two hours. MeetMind will transcribe it,
+                  Upload an MP3, WAV, M4A, MP4 or WEBM recording of up to two hours. MeetCite will transcribe it,
                   identify speakers and write evidence-linked minutes.
                 </p>
                 <Button asChild className="mt-2">

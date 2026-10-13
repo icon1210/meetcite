@@ -15,10 +15,10 @@ export default defineConfig({
       env: {
         AI_MODE: "fake",
         DATA_DIR: "./data-e2e",
-        DATABASE_URL: "sqlite:///./data-e2e/meetmind.db",
+        DATABASE_URL: "sqlite:///./data-e2e/meetcite.db",
       },
       // Never reuse a running API: it may be the real one, and tests would write into real meetings.
-      // Stop the MeetMind API window before running the tests.
+      // Stop the MeetCite API window before running the tests.
       reuseExistingServer: false,
     },
     { command: "npm run dev", url: "http://localhost:5173", reuseExistingServer: true },

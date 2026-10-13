@@ -4,7 +4,7 @@
  * mark in the tab title until the user comes back.
  */
 
-const SOUND_KEY = "meetmind-sound";
+const SOUND_KEY = "meetcite-sound";
 let ctx: AudioContext | null = null;
 
 export function soundEnabled(): boolean {
@@ -88,14 +88,14 @@ function markTitle(mark: string): void {
 export function announceMeeting(title: string, ok: boolean, onOpen?: () => void): void {
   playChime(ok ? "success" : "error");
   // Lets Mindy (components/Buddy.tsx) celebrate or look sorry wherever she is on screen.
-  window.dispatchEvent(new CustomEvent("meetmind:announce", { detail: { ok, title } }));
+  window.dispatchEvent(new CustomEvent("meetcite:announce", { detail: { ok, title } }));
   markTitle(ok ? "✓" : "✕");
   if (document.hidden && notificationsAvailable() && Notification.permission === "granted") {
     try {
       const n = new Notification(ok ? "Your meeting is ready" : "Processing failed", {
-        body: ok ? `${title}: transcript and minutes are ready to review.` : `${title}: open MeetMind to retry.`,
+        body: ok ? `${title}: transcript and minutes are ready to review.` : `${title}: open MeetCite to retry.`,
         icon: "/favicon.svg",
-        tag: `meetmind-${title}`,
+        tag: `meetcite-${title}`,
       });
       n.onclick = () => {
         window.focus();

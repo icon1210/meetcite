@@ -32,7 +32,7 @@ class User(Base):
 
 
 class Series(Base):
-    """A recurring set of meetings (e.g. "Weekly team meeting"): MeetMind's project memory.
+    """A recurring set of meetings (e.g. "Weekly team meeting"): MeetCite's project memory.
 
     Actions carry over between its meetings, its decisions form one history, and a new meeting is
     checked against earlier decisions for changes and contradictions.
@@ -169,7 +169,7 @@ class Speaker(Base):
     meeting_id: Mapped[int] = mapped_column(ForeignKey("meetings.id", ondelete="CASCADE"), index=True)
     label: Mapped[str] = mapped_column(String(40))  # e.g. SPEAKER_00
     display_name: Mapped[str] = mapped_column(String(120))
-    # A name proposed by MeetMind (from a Teams/Zoom transcript or from introductions in the meeting),
+    # A name proposed by MeetCite (from a Teams/Zoom transcript or from introductions in the meeting),
     # shown for the user to accept. Never applied silently unless it came from a meeting-platform transcript.
     suggested_name: Mapped[str | None] = mapped_column(String(120), nullable=True)
     suggestion_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
