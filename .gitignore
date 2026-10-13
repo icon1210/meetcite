@@ -1,0 +1,47 @@
+# Secrets: API keys and passwords live only in .env files, never in the repository.
+.env
+.env.*
+!.env.example
+!.env.cloud.example
+
+# Python and Node environments, caches and builds
+**/.venv*/
+**/node_modules/
+**/dist/
+**/__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+frontend/playwright-report/
+frontend/test-results/
+
+# Meeting data: databases, uploads, recordings and logs stay private
+**/data/
+**/data-demo/
+**/data-e2e/
+*.db
+*.db-journal
+*.sqlite*
+*.log
+*.webm
+*.mp3
+*.wav
+*.m4a
+*.mp4
+
+# Downloaded AI models
+models/*
+!models/README.md
+
+# Research outputs and datasets
+research/results/e3_outputs/
+research/results/e4_*
+research/results/*.csv
+research/data/
+
+# Group documents with names and student IDs, and build packages
+docs/*.docx
+deploy/*.zip
+
+# Local tool settings
+.claude/

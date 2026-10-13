@@ -1,0 +1,22 @@
+{$DOMAIN} {
+	encode gzip
+	# Recordings can be large (up to two hours).
+	request_body {
+		max_size 1100MB
+	}
+	reverse_proxy frontend:80 {
+		# Long uploads and the live-progress WebSocket.
+		transport http {
+			read_timeout 1h
+			write_timeout 1h
+		}
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+	}
+}
+
+# www.yourdomain -> yourdomain (needs the "www" A record from the deployment guide).
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}

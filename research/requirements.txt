@@ -1,0 +1,9 @@
+# Install on top of backend/requirements-ml.txt (same virtual environment).
+jiwer==3.0.5
+pyannote.metrics==3.2.1
+rouge-score==0.1.2
+bert-score==0.3.13
+datasets==3.2.0
+accelerate==1.2.1
+pandas==2.2.3
+matplotlib==3.10.0

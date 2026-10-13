@@ -1,0 +1,305 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colour tokens: the "Sunset" palette shared with the landing page (burnt orange, raspberry and
+   plum). All text/background pairs meet WCAG 2.1 AA contrast (NFR10). */
+@layer base {
+  :root {
+    --background: 24 60% 98%;
+    --foreground: 294 53% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 294 53% 12%;
+    --primary: 17 88% 40%; /* burnt orange #c2410c: white text 5.2:1 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 25 85% 93%;
+    --secondary-foreground: 17 80% 24%;
+    --muted: 24 45% 94%;
+    --muted-foreground: 329 22% 33%;
+    --accent: 327 80% 94%;
+    --accent-foreground: 333 75% 28%;
+    --destructive: 0 72% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 38 92% 90%;
+    --warning-foreground: 28 80% 25%;
+    --success: 152 55% 90%;
+    --success-foreground: 152 70% 20%;
+    --border: 20 45% 87%;
+    --input: 20 30% 78%;
+    --ring: 333 71% 42%;
+    --radius: 0.6rem;
+  }
+  .dark {
+    --background: 285 57% 7%;
+    --foreground: 15 100% 96%;
+    --card: 288 50% 10%;
+    --card-foreground: 15 100% 96%;
+    --primary: 27 96% 61%; /* orange #fb923c with plum text */
+    --primary-foreground: 285 57% 7%;
+    --secondary: 290 35% 16%;
+    --secondary-foreground: 15 80% 92%;
+    --muted: 290 30% 14%;
+    --muted-foreground: 330 25% 78%;
+    --accent: 333 50% 20%;
+    --accent-foreground: 330 90% 88%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 35 60% 18%;
+    --warning-foreground: 40 90% 80%;
+    --success: 152 40% 16%;
+    --success-foreground: 152 60% 80%;
+    --border: 290 25% 22%;
+    --input: 290 25% 32%;
+    --ring: 27 96% 61%;
+  }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  /* A clearly visible focus ring for keyboard users. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* Dashboard banner sound wave. */
+.mm-bar {
+  transform-origin: center;
+  animation: mm-bar 1.3s ease-in-out infinite;
+}
+@keyframes mm-bar {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* ---- Mindy, the animated companion (components/Buddy.tsx) ------------------------------ */
+.mm-buddy * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.mm-buddy .mm-body {
+  animation: mm-sway 4s ease-in-out infinite;
+}
+.mm-buddy .mm-eyes {
+  animation: mm-blink 4.5s infinite;
+}
+.mm-buddy .mm-pupil {
+  transition: transform 0.25s ease-out;
+}
+.mm-buddy .mm-mouth {
+  transition:
+    ry 0.08s linear,
+    rx 0.08s linear;
+}
+@keyframes mm-sway {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+@keyframes mm-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+/* Listening: a gentle nod in time with the meeting */
+.mm-buddy--listening .mm-body {
+  animation: mm-nod 1.6s ease-in-out infinite;
+}
+@keyframes mm-nod {
+  0%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+  50% {
+    transform: rotate(3deg) translateY(2px);
+  }
+}
+/* Thinking: antenna light pulses, thought bubbles rise */
+.mm-buddy--thinking .mm-antenna,
+.mm-buddy--checking .mm-antenna {
+  animation: mm-pulse 1.2s ease-in-out infinite;
+}
+@keyframes mm-pulse {
+  50% {
+    transform: scale(1.35);
+    fill: #fef08a;
+  }
+}
+.mm-buddy .mm-thought circle {
+  animation: mm-rise 1.8s ease-in-out infinite;
+}
+.mm-buddy .mm-thought circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.mm-buddy .mm-thought circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes mm-rise {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+/* Writing: the pencil scribbles */
+.mm-buddy .mm-pencil-tip {
+  animation: mm-scribble 0.6s ease-in-out infinite;
+}
+@keyframes mm-scribble {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  25% {
+    transform: translate(-6px, 1px) rotate(-6deg);
+  }
+  75% {
+    transform: translate(4px, -1px) rotate(5deg);
+  }
+}
+/* Checking: the magnifier sweeps across the face, the eyes follow it */
+.mm-buddy .mm-magnifier {
+  animation: mm-sweep 2.4s ease-in-out infinite;
+}
+.mm-buddy--checking .mm-pupil {
+  animation: mm-scan 2.4s ease-in-out infinite;
+}
+@keyframes mm-sweep {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+  50% {
+    transform: translateX(-46px) rotate(-8deg);
+  }
+}
+@keyframes mm-scan {
+  0%,
+  100% {
+    transform: translateX(4px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+}
+/* Celebrating: bounce, wiggle and sparkles */
+.mm-buddy--celebrating .mm-body {
+  animation: mm-bounce 0.9s cubic-bezier(0.3, 1.6, 0.5, 1) infinite;
+}
+.mm-buddy--celebrating .mm-shadow {
+  animation: mm-shadow 0.9s cubic-bezier(0.3, 1.6, 0.5, 1) infinite;
+}
+@keyframes mm-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  40% {
+    transform: translateY(-16px) rotate(-5deg);
+  }
+  70% {
+    transform: translateY(-4px) rotate(4deg);
+  }
+}
+@keyframes mm-shadow {
+  40% {
+    transform: scaleX(0.75);
+    opacity: 0.1;
+  }
+}
+.mm-buddy .mm-sparkles path {
+  animation: mm-twinkle 1.2s ease-in-out infinite;
+}
+@keyframes mm-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+/* Sad: droop and a falling tear */
+.mm-buddy--sad .mm-body {
+  animation: mm-droop 3s ease-in-out infinite;
+}
+@keyframes mm-droop {
+  0%,
+  100% {
+    transform: translateY(2px) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+.mm-buddy .mm-tear {
+  animation: mm-tear 2s ease-in infinite;
+}
+@keyframes mm-tear {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+/* Mindy's speech bubble pops in each time she says something new. */
+.mm-bubble {
+  animation: mm-bubble-pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  transform-origin: left center;
+}
+@keyframes mm-bubble-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Mindy keeps her expressions but stops moving. */
+  .mm-buddy * {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

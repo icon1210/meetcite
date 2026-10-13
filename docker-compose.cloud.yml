@@ -1,0 +1,55 @@
+# MeetMind with cloud AI (AssemblyAI + Claude) - for a small Linux server with NO graphics card,
+# e.g. a HostAfrica VPS. Everything (website, API, HTTPS) runs from this one file.
+#
+#   1. Copy .env.cloud.example to .env and fill it in (domain, secret, the two API keys).
+#   2. docker compose -f docker-compose.cloud.yml up -d --build
+#   3. Open https://<your domain>  (the HTTPS certificate is issued automatically)
+#
+# See docs/DEPLOYMENT.md, "Cloud AI on a VPS".
+
+x-backend-env: &backend-env
+  ENVIRONMENT: production
+  SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+  DATABASE_URL: sqlite:////data/meetmind.db
+  DATA_DIR: /data
+  TASK_MODE: thread
+  AI_MODE: real
+  AI_PROVIDER: cloud
+  ASSEMBLYAI_API_KEY: ${ASSEMBLYAI_API_KEY:?Set ASSEMBLYAI_API_KEY in .env}
+  ASSEMBLYAI_BASE_URL: ${ASSEMBLYAI_BASE_URL:-https://api.assemblyai.com}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:?Set ANTHROPIC_API_KEY in .env}
+  CLOUD_LLM_MODEL: ${CLOUD_LLM_MODEL:-claude-opus-5-5}
+  CLOUD_LLM_EFFORT: ${CLOUD_LLM_EFFORT:-low}
+  # Only people you give this code to can create accounts (protects your API credits).
+  REGISTRATION_CODE: ${REGISTRATION_CODE:-}
+  CORS_ORIGINS: '["https://${DOMAIN:?Set DOMAIN in .env}"]'
+  # Caddy replaces any client-supplied X-Forwarded-For, so its first entry is the real visitor.
+  TRUSTED_PROXY_HEADER: X-Forwarded-For
+
+services:
+  api:
+    build: ./backend
+    environment: *backend-env
+    volumes: ["meetmind-data:/data"]
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    depends_on: [api]
+    restart: unless-stopped
+
+  # HTTPS front door: gets and renews a free Let's Encrypt certificate for DOMAIN.
+  caddy:
+    image: caddy:2.8.4-alpine
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./deploy/cloud/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    depends_on: [frontend]
+    restart: unless-stopped
+
+volumes:
+  meetmind-data:
+  caddy-data:

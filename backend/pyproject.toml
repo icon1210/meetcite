@@ -1,0 +1,22 @@
+[project]
+name = "meetmind-backend"
+version = "1.0.0"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B008"]  # FastAPI uses calls in default arguments by design
+
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
