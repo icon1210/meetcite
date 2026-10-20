@@ -262,7 +262,7 @@ Never commit real keys; `.env` files are excluded from Git.
 | Backend lint / format / types | `ruff check app tests` · `ruff format --check app tests` · `mypy app` | clean |
 | Web app unit tests | `cd frontend && npm test` | 29 passing |
 | Web app lint / types / build | `npm run lint` · `npm run typecheck` · `npm run build` | clean |
-| End-to-end (Playwright) | `npm run e2e` (stop the local MeetCite API first) | 5 passing |
+| End-to-end (Playwright) | `npm run e2e` (stop the local MeetCite API first) | 6 passing, including a screen-size check of every page at 11 widths (320–1920px) |
 
 Coverage includes alignment and chunking, JSON validation and retries, map-reduce summarisation, citation checks,
 the AI check and its fallback, series memory and agenda checks, live-caption tokens, cloud transcription parsing,

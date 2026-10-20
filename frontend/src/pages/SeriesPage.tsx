@@ -74,6 +74,15 @@ function ActionTracker({ series }: { series: SeriesDetail }) {
           {rows.map(({ a, due }) => {
             const label = due && a.status === "open" ? dueLabel(due) : null;
             const done = a.status === "done";
+            const badge = (className: string) =>
+              label && (
+                <Badge
+                  className={className}
+                  variant={label.tone === "overdue" ? "destructive" : label.tone === "soon" ? "warning" : "default"}
+                >
+                  {label.text}
+                </Badge>
+              );
             return (
               <li key={a.id}>
                 <Card className="flex items-start gap-3 p-4">
@@ -88,6 +97,8 @@ function ActionTracker({ series }: { series: SeriesDetail }) {
                   </button>
                   <div className="min-w-0 flex-1">
                     <p className={cn("font-medium", done && "text-muted-foreground line-through")}>{a.task}</p>
+                    {/* On phones the deadline badge sits under the task, so the task text keeps the full width. */}
+                    {badge("my-1 sm:hidden")}
                     <p className="text-xs text-muted-foreground">
                       {a.owner ?? "No owner stated"}
                       {a.deadline ? ` · due ${a.deadline}` : ""} · from{" "}
@@ -100,13 +111,7 @@ function ActionTracker({ series }: { series: SeriesDetail }) {
                       ({formatDate(a.meeting_date)})
                     </p>
                   </div>
-                  {label && (
-                    <Badge
-                      variant={label.tone === "overdue" ? "destructive" : label.tone === "soon" ? "warning" : "default"}
-                    >
-                      {label.text}
-                    </Badge>
-                  )}
+                  {badge("hidden shrink-0 sm:inline-flex")}
                 </Card>
               </li>
             );

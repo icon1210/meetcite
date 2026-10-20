@@ -275,6 +275,7 @@ allocation document (MeetCite_Task_Allocation).
     src/lib/deadlines.ts           Spoken deadlines to dates; calendar files   (Chinonye)
     src/test/                      29 unit tests
     e2e/meetcite.spec.ts           5 end-to-end browser tests (also take screenshots)
+    e2e/responsive.spec.ts         Every page and tab must fit 11 screen widths (320-1920px)
 
   research/                        Evaluation scripts (E1-E5), AMI download, SUS scoring,
                                    user_study/ (protocol, consent form, questionnaire)
@@ -450,7 +451,7 @@ allocation document (MeetCite_Task_Allocation).
   Backend types                 mypy app                                       clean
   Web app unit tests (Vitest)   cd frontend; npm test                          29 passing
   Web app lint / types / build  npm run lint; npm run typecheck; npm run build clean
-  End-to-end (Playwright)       npm run e2e  (stop the laptop's MeetCite API   5 passing
+  End-to-end (Playwright)       npm run e2e  (stop the laptop's MeetCite API   6 passing
                                 first; the tests start their own in demo mode)
 
  What the tests cover: alignment and chunking, JSON validation and retries, map-reduce

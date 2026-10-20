@@ -26,7 +26,7 @@ export function SeriesPanel() {
   });
 
   return (
-    <section aria-labelledby="series-heading" className="space-y-3">
+    <section aria-labelledby="series-heading" className="min-w-0 space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="series-heading" className="flex items-center gap-2 text-xl font-semibold tracking-tight">
           <Layers className="size-5 text-primary" aria-hidden /> Meeting series
@@ -74,7 +74,7 @@ export function SeriesPanel() {
               <Link to={`/series/${s.id}`} className="group block">
                 <Card className="relative overflow-hidden p-4 transition-all group-hover:-translate-y-0.5 group-hover:shadow-md">
                   <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-orange-500 via-rose-500 to-fuchsia-500" />
-                  <p className="flex items-center justify-between gap-2 pl-2 font-semibold">
+                  <p className="flex items-center justify-between gap-2 break-words pl-2 font-semibold">
                     {s.name}
                     <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
                   </p>
@@ -105,7 +105,7 @@ export function DueSoonPanel() {
   if (!actions.data || actions.data.length === 0) return null;
 
   return (
-    <section aria-labelledby="due-heading" className="space-y-3">
+    <section aria-labelledby="due-heading" className="min-w-0 space-y-3">
       <h2 id="due-heading" className="flex items-center gap-2 text-xl font-semibold tracking-tight">
         <AlarmClock className="size-5 text-primary" aria-hidden /> Due soon
       </h2>
