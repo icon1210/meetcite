@@ -678,6 +678,15 @@ const PRIVACY: { Icon: typeof Lock; title: string; text: string }[] = [
   },
 ];
 
+/** Group 8, with each member's role from the group's task allocation. */
+const TEAM: { name: string; role: string }[] = [
+  { name: "Oguanya Kenneth Ifeanyi", role: "Group Lead · Database, accounts and data protection" },
+  { name: "Olayinka Williams Ajibola", role: "Project Design Lead · System architecture, AI pipeline and UI/UX" },
+  { name: "Iloanugo Onyeka Pascal", role: "AI Evaluation Lead · Transcription, speakers and evaluation" },
+  { name: "Emmanuel Chieji", role: "Testing, Security and Deployment Lead · Media processing" },
+  { name: "Chinonye Linda Nwanya", role: "Exports and Usability Lead · Follow-up tools and user study" },
+];
+
 const FAQ: { q: string; a: string }[] = [
   {
     q: "What does “supported” mean?",
@@ -1105,10 +1114,18 @@ export default function LandingPage() {
                     An MSc research project
                   </h2>
                   <p className="lp-muted mt-4 leading-relaxed">
-                    MeetCite was built by Olayinka Williams Ajibola for the MSc Information Technology programme at the
-                    University of the West of Scotland. It is a research prototype for studying how AI meeting summaries
-                    can be made checkable, not a commercial service.
+                    MeetCite is the Group 8 project for the MSc Information Technology programme at the University of
+                    the West of Scotland. It is a research prototype for studying how AI meeting summaries can be made
+                    checkable, not a commercial service.
                   </p>
+                  <ul className="mt-6 grid gap-3 sm:grid-cols-2" aria-label="The MeetCite team">
+                    {TEAM.map((m) => (
+                      <li key={m.name} className="min-w-0">
+                        <p className="font-semibold">{m.name}</p>
+                        <p className="lp-muted text-sm">{m.role}</p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-end">
                   <Link to={startHref} className="lp-btn lp-btn-primary">
@@ -1174,7 +1191,8 @@ export default function LandingPage() {
           </nav>
         </div>
         <div className="lp-line lp-muted border-t py-5 text-center text-xs">
-          Research prototype · © {new Date().getFullYear()} Olayinka Williams Ajibola · Hero photo by{" "}
+          Research prototype · © {new Date().getFullYear()} MeetCite Group 8, University of the West of Scotland · Hero
+          photo by{" "}
           <a
             className="underline underline-offset-2"
             href="https://unsplash.com/photos/woman-wearing-headphones-works-on-a-laptop-by-window-NLuDzsdyQ6M"

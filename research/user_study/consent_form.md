@@ -1,7 +1,9 @@
 # Consent form — MeetCite user study
 
 **Project:** MeetCite: an AI-powered meeting transcription and summarization web application
-**Researcher:** Olayinka Williams Ajibola, MSc Information Technology, University of the West of Scotland
+**Researchers:** Group 8, MSc Information Technology, University of the West of Scotland: Oguanya Kenneth Ifeanyi
+(Group Lead), Olayinka Williams Ajibola, Iloanugo Onyeka Pascal, Emmanuel Chieji and Chinonye Linda Nwanya
+(usability study lead)
 **Supervisor:** [name, email]
 
 Please initial each box.
