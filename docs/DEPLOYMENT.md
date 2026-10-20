@@ -91,11 +91,37 @@ visit (give the DNS record from step 2 up to an hour to spread first).
 2. Create an account (you'll be asked for the sign-up code), upload a short recording, and wait for the chime.
 3. On the server, `docker compose -f docker-compose.cloud.yml ps` shows `api`, `frontend` and `caddy` running.
 
-**Update later:** run `make-server-package.ps1` again, `scp` the zip, then on the server
-`cd /opt && unzip -o meetcite-server.zip && cd meetcite && docker compose -f docker-compose.cloud.yml up -d --build`
-(your `.env` and all meetings are kept).
+**Update later:** if the server was set up with `git clone` into `/opt/meetcite`, run
+`cd /opt/meetcite && git pull && docker compose -f docker-compose.cloud.yml up -d --build`.
+If it was set up from the zip, run `make-server-package.ps1` again, `scp` the zip, then
+`cd /opt && unzip -o meetcite-server.zip && cd meetcite && docker compose -f docker-compose.cloud.yml up -d --build`.
+Either way, your `.env` and all meetings are kept.
 **Logs:** `docker compose -f docker-compose.cloud.yml logs -f api`.
-**Backup:** `docker run --rm -v meetcite_meetcite-data:/d -v $PWD:/b alpine tar czf /b/backup.tgz -C /d .`
+
+### 7. Nightly backups
+The database is a SQLite file (`meetcite.db`) in the `meetcite_meetcite-data` Docker volume, next to the
+uploaded recordings. [`deploy/cloud/meetcite-backup.sh`](../deploy/cloud/meetcite-backup.sh) takes a consistent
+snapshot with SQLite's online backup (safe while MeetCite runs), archives it with the uploads, checks the archive,
+and keeps 7 daily and 4 weekly copies in `/var/backups/meetcite`. Install it on the server:
+
+```bash
+install -m 700 /opt/meetcite/deploy/cloud/meetcite-backup.sh /usr/local/bin/meetcite-backup.sh
+echo "30 2 * * * root /usr/local/bin/meetcite-backup.sh >> /var/log/meetcite-backup.log 2>&1" > /etc/cron.d/meetcite-backup
+/usr/local/bin/meetcite-backup.sh   # test it once
+```
+
+Check it ran: `tail /var/log/meetcite-backup.log`. Backups on the same server do not survive losing the server,
+so copy one off it regularly, e.g. from your PC:
+`scp root@SERVER_IP:/var/backups/meetcite/daily/<newest>.tar.gz .`
+
+**Restore** (replaces the current data):
+
+```bash
+cd /opt/meetcite && docker compose -f docker-compose.cloud.yml stop api
+V=$(docker volume inspect -f '{{.Mountpoint}}' meetcite_meetcite-data)
+tar -xzf /var/backups/meetcite/daily/meetcite-YYYY-MM-DD_HHMM.tar.gz -C "$V"
+docker compose -f docker-compose.cloud.yml start api
+```
 
 ### Trying cloud mode on your PC first
 In `backend\.env`, uncomment `AI_PROVIDER=cloud` and paste the two keys, then restart MeetCite.
