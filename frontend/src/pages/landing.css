@@ -1041,3 +1041,31 @@
     animation: none;
   }
 }
+
+/* Phones: card grids become one swipeable row, so long sections don't stack 4-8 tall cards. */
+@media (max-width: 639px) {
+  .lp .lp-swipe {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0.875rem;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 0.75rem;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lp .lp-swipe::-webkit-scrollbar {
+    display: none;
+  }
+  .lp .lp-swipe > * {
+    flex: 0 0 82%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  /* The sample transcript scrolls inside the preview instead of lengthening it. */
+  .lp .lp-preview-lines {
+    max-height: 11rem;
+    overflow-y: auto;
+  }
+}

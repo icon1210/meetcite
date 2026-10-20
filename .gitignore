@@ -41,6 +41,7 @@ research/data/
 
 # Group documents with names and student IDs, and build packages
 docs/*.docx
+docs/*.pdf
 deploy/*.zip
 
 # Local tool settings

@@ -354,7 +354,7 @@ function ProductPreview() {
           <p className="lp-muted flex items-center gap-2 text-xs font-medium uppercase tracking-wide">
             <FileSearch className="size-3.5" aria-hidden /> Transcript
           </p>
-          <ol className="mt-2 space-y-1" aria-label="Sample transcript">
+          <ol className="lp-preview-lines mt-2 space-y-1" aria-label="Sample transcript">
             {LINES.map((l) => (
               <li key={l.id} className="lp-line-row text-sm" data-active={active.includes(l.id)}>
                 <span className="lp-muted mr-2 text-xs tabular-nums">{l.time}</span>
@@ -786,11 +786,20 @@ const hue = (i: number) => {
   return { "--hue-a": a, "--hue-b": b } as CSSProperties;
 };
 
+/** Phones only: tells people the card row scrolls sideways. */
+function SwipeHint({ count }: { count: number }) {
+  return (
+    <p className="lp-muted mt-3 flex items-center gap-1.5 text-xs sm:hidden" aria-hidden>
+      Swipe to see all {count} <ArrowRight className="size-3.5" />
+    </p>
+  );
+}
+
 /** Card with its own colour pair and a soft spotlight that follows the pointer. */
 function Tile({ index, Icon, title, text }: { index: number; Icon: typeof Quote; title: string; text: string }) {
   return (
     <div
-      className="lp-card lp-card-hover lp-tile p-6"
+      className="lp-card lp-card-hover lp-tile h-full p-6"
       style={hue(index)}
       onPointerMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
@@ -853,7 +862,7 @@ export default function LandingPage() {
                 </h1>
               </Reveal>
               <Reveal delay={120}>
-                <p className="lp-muted mx-auto mt-6 max-w-2xl text-lg leading-relaxed">
+                <p className="lp-muted mx-auto mt-6 max-w-2xl text-base leading-relaxed sm:text-lg">
                   MeetCite transforms meeting recordings into searchable transcripts, summaries, decisions and action
                   items, each linked to the exact transcript evidence it came from, so you can check what the AI wrote.
                 </p>
@@ -892,7 +901,7 @@ export default function LandingPage() {
         </section>
 
         {/* Features */}
-        <section id="features" className="lp-soft lp-wash scroll-mt-16 py-20 sm:py-24" aria-labelledby="features-title">
+        <section id="features" className="lp-soft lp-wash scroll-mt-16 py-14 sm:py-24" aria-labelledby="features-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="max-w-2xl">
               <p className="lp-section-label">Features</p>
@@ -903,18 +912,19 @@ export default function LandingPage() {
                 Most meeting summaries ask you to trust them. MeetCite shows its working.
               </p>
             </Reveal>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="lp-swipe mt-8 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4">
               {FEATURES.map((f, i) => (
                 <Reveal key={f.title} delay={(i % 4) * 70}>
                   <Tile index={i} Icon={f.Icon} title={f.title} text={f.text} />
                 </Reveal>
               ))}
             </div>
+            <SwipeHint count={FEATURES.length} />
           </div>
         </section>
 
         {/* Specs */}
-        <section id="specs" className="lp-soft lp-wash scroll-mt-16 py-20 sm:py-24" aria-labelledby="specs-title">
+        <section id="specs" className="lp-soft lp-wash scroll-mt-16 py-14 sm:py-24" aria-labelledby="specs-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl">
@@ -926,11 +936,11 @@ export default function LandingPage() {
                   The formats it accepts, how fast it works, the AI behind it and what you get back.
                 </p>
               </div>
-              <div className="lp-surface">
+              <div className="lp-surface hidden sm:block">
                 <BuddyWithMessage mood="idle" message="Here's what I can do for your meetings!" size={96} />
               </div>
             </Reveal>
-            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <div className="lp-swipe mt-8 grid gap-5 sm:mt-12 md:grid-cols-2 xl:grid-cols-4">
               {specs(where.title).map((group, i) => (
                 <Reveal key={group.title} delay={(i % 4) * 70}>
                   <div className="lp-card lp-tile h-full p-6" style={hue(i)}>
@@ -952,6 +962,7 @@ export default function LandingPage() {
                 </Reveal>
               ))}
             </div>
+            <SwipeHint count={specs(where.title).length} />
             <p className="lp-muted mt-6 text-xs">
               Speeds were measured on one 88-minute meeting recording in October 2026 and vary with recording length,
               server hardware and the AI services' load.
@@ -960,7 +971,7 @@ export default function LandingPage() {
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="scroll-mt-16 py-20 sm:py-24" aria-labelledby="how-title">
+        <section id="how-it-works" className="scroll-mt-16 py-14 sm:py-24" aria-labelledby="how-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="mx-auto max-w-2xl text-center">
               <p className="lp-section-label">How It Works</p>
@@ -968,9 +979,9 @@ export default function LandingPage() {
                 From recording to reviewed minutes in five steps
               </h2>
             </Reveal>
-            <div className="relative mt-14">
+            <div className="relative mt-10 sm:mt-14">
               <span className="lp-steps-track" aria-hidden />
-              <ol className="lp-steps grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+              <ol className="lp-steps lp-swipe grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-5">
                 {STEPS.map((s, i) => (
                   <Reveal as="li" key={s.title} delay={i * 80} className="relative text-center">
                     <span
@@ -986,12 +997,13 @@ export default function LandingPage() {
                   </Reveal>
                 ))}
               </ol>
+              <SwipeHint count={STEPS.length} />
             </div>
           </div>
         </section>
 
         {/* Evidence verification demo */}
-        <section className="lp-soft py-20 sm:py-24" aria-labelledby="evidence-title">
+        <section className="lp-soft py-14 sm:py-24" aria-labelledby="evidence-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="max-w-2xl">
               <p className="lp-section-label">Evidence verification</p>
@@ -1010,8 +1022,8 @@ export default function LandingPage() {
         </section>
 
         {/* Research */}
-        <section id="research" className="scroll-mt-16 py-20 sm:py-24" aria-labelledby="research-title">
-          <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2">
+        <section id="research" className="scroll-mt-16 py-14 sm:py-24" aria-labelledby="research-title">
+          <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
             <Reveal>
               <p className="lp-section-label">Research</p>
               <h2 id="research-title" className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -1061,7 +1073,7 @@ export default function LandingPage() {
         </section>
 
         {/* Privacy and security */}
-        <section className="lp-soft py-20 sm:py-24" aria-labelledby="privacy-title">
+        <section className="lp-soft py-14 sm:py-24" aria-labelledby="privacy-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="max-w-2xl">
               <p className="lp-section-label">Privacy and security</p>
@@ -1070,18 +1082,19 @@ export default function LandingPage() {
               </h2>
               <p className="lp-muted mt-4 text-lg">These safeguards are implemented in the current version.</p>
             </Reveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="lp-swipe mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
               {privacy.map((p, i) => (
                 <Reveal key={p.title} delay={i * 70}>
                   <Tile index={i + 4} Icon={p.Icon} title={p.title} text={p.text} />
                 </Reveal>
               ))}
             </div>
+            <SwipeHint count={privacy.length} />
           </div>
         </section>
 
         {/* FAQ */}
-        <section className="py-20 sm:py-24" aria-labelledby="faq-title">
+        <section className="py-14 sm:py-24" aria-labelledby="faq-title">
           <div className="mx-auto max-w-3xl px-4 sm:px-6">
             <Reveal className="text-center">
               <p className="lp-section-label">FAQ</p>
@@ -1104,7 +1117,7 @@ export default function LandingPage() {
         </section>
 
         {/* About + final call to action */}
-        <section id="about" className="scroll-mt-16 pb-20 sm:pb-24" aria-labelledby="about-title">
+        <section id="about" className="scroll-mt-16 pb-14 sm:pb-24" aria-labelledby="about-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
             <Reveal className="lp-window lp-cta relative overflow-hidden p-8 sm:p-12">
               <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
