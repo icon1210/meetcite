@@ -37,6 +37,10 @@ export interface MeetingListItem {
   decision_count: number;
   open_action_count: number;
   flagged_count: number;
+  /** Flagged claims the owner hasn't reviewed yet (0 for the plain C1 version). */
+  review_needed_count: number;
+  /** Decisions that changed compared with earlier meetings in the series. */
+  change_count: number;
   series_id: number | null;
   series_name: string | null;
 }

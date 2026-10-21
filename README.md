@@ -88,7 +88,7 @@ unassigned actions, reliability) · Ask (answers from the transcript, with sourc
 recording from that moment. Export to **PDF, DOCX and TXT**, with an AI notice and flags on unsupported points.
 
 **Across meetings:** series page (action tracker, decision history, changes, ask across meetings) and a dashboard
-(statistics, series, actions due soon, searchable library).
+(a "Needs your attention" list ranking meetings by what needs doing: failed processing, overdue actions, changed decisions, claims to check, actions with no owner or due soon, each linking to the right tab; statistics, series, actions due soon, and a searchable library with a "Needs attention" filter).
 
 **Accounts and interface:** register/log in, optional sign-up code, permanent deletion, landing page, Mindy the
 mascot (status and plain-language errors), light and dark themes.
@@ -258,9 +258,9 @@ Never commit real keys; `.env` files are excluded from Git.
 
 | Check | Command | Result (Oct 2026) |
 |---|---|---|
-| Backend tests | `cd backend && .venv\Scripts\python -m pytest` | 84 passing |
+| Backend tests | `cd backend && .venv\Scripts\python -m pytest` | 85 passing |
 | Backend lint / format / types | `ruff check app tests` · `ruff format --check app tests` · `mypy app` | clean |
-| Web app unit tests | `cd frontend && npm test` | 29 passing |
+| Web app unit tests | `cd frontend && npm test` | 34 passing |
 | Web app lint / types / build | `npm run lint` · `npm run typecheck` · `npm run build` | clean |
 | End-to-end (Playwright) | `npm run e2e` (stop the local MeetCite API first) | 6 passing, including a screen-size check of every page at 11 widths (320–1920px) |
 

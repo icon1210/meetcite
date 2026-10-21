@@ -186,9 +186,16 @@ export default function MeetingPage() {
   );
   const onPlay = useCallback((seconds: number) => playerRef.current?.seekTo(seconds, true), []);
 
-  // Links from other meetings (?at=<line>) open the transcript at that moment.
+  // Links from other meetings (?at=<line>) open the transcript at that moment;
+  // links from the dashboard (?tab=evidence, ?tab=actions…) open the tab that needs attention.
   const [params, setParams] = useSearchParams();
   const at = params.get("at");
+  const tabParam = params.get("tab");
+  useEffect(() => {
+    if (!tabParam) return;
+    setTab(tabParam);
+    setParams({}, { replace: true });
+  }, [tabParam, setParams]);
   useEffect(() => {
     if (at === null || segmentsByPosition.size === 0) return;
     onJump([Number(at)]);
@@ -286,9 +293,9 @@ export default function MeetingPage() {
                 ? "This baseline version cites no evidence, so its claims can't be checked."
                 : "Check before sharing."}
             </span>
-            {meeting.flagged_count > 0 && meeting.summary?.configuration !== "baseline" && (
+            {meeting.review_needed_count > 0 && (
               <Button size="sm" variant="outline" className="ml-auto h-7" onClick={() => setTab("evidence")}>
-                <ShieldCheck /> Review {meeting.flagged_count} flagged
+                <ShieldCheck /> Review {meeting.review_needed_count} flagged
               </Button>
             )}
           </div>

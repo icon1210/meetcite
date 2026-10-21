@@ -198,3 +198,31 @@ def test_series_are_private(client: TestClient) -> None:
         data={"title": "Sneaky", "series_id": str(series["id"])},
     )
     assert resp.status_code == 404
+
+
+def test_dashboard_counts_what_still_needs_attention(client: TestClient) -> None:
+    auth = make_user(client)
+    meeting = _upload(client, auth, "Needs a look")
+    listed = next(m for m in client.get("/api/meetings", headers=auth).json() if m["id"] == meeting["id"])
+    assert listed["change_count"] == 0
+    before = listed["review_needed_count"]
+    assert before > 0  # the demo meeting has claims the check could not confirm
+
+    # Reviewing one flagged claim takes it off the to-do count.
+    detail = client.get(f"/api/meetings/{meeting['id']}", headers=auth).json()
+    summary = detail["summary"]
+    candidates = [(f"point:{i}", p) for i, p in enumerate(summary["points"])]
+    candidates += [(f"topic:{t}", topic) for t, topic in enumerate(summary["topics"])]
+    candidates += [(f"risk:{i}", r) for i, r in enumerate(summary["risks"])]
+    path, _ = next(
+        (path, c)
+        for path, c in candidates
+        if c["verdict"] in ("partial", "unsupported") or c["evidence_status"] in ("missing", "invalid")
+    )
+    claim_type = path.split(":")[0]
+    resp = client.post(
+        f"/api/claims/{claim_type}/{summary['id']}:{path}/review", headers=auth, json={"label": "supported"}
+    )
+    assert resp.status_code == 200, resp.text
+    listed = next(m for m in client.get("/api/meetings", headers=auth).json() if m["id"] == meeting["id"])
+    assert listed["review_needed_count"] == before - 1

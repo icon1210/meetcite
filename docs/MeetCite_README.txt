@@ -162,7 +162,10 @@ allocation document (MeetCite_Task_Allocation).
  ACROSS MEETINGS
   * Meeting series page: one action tracker (filter by owner), decision history timeline,
     changes, list of meetings, and questions answered across all meetings with sources.
-  * Dashboard: statistics, series, actions due soon, searchable library filtered by status.
+  * Dashboard: a "Needs your attention" list ranking meetings by what needs doing (failed
+    processing, overdue actions, decisions changed since an earlier meeting, claims nobody has
+    checked, actions with no owner, actions due soon), each reason opening the right tab;
+    statistics, series, actions due soon, and a searchable library with a "Needs attention" filter.
 
  ACCOUNTS AND INTERFACE
   * Register, log in, log out; optional sign-up code so only invited people can create accounts.
@@ -262,7 +265,7 @@ allocation document (MeetCite_Task_Allocation).
     app/pipeline/llm_clients.py    Talking to Ollama or Claude
     app/pipeline/fake.py           Demo mode (fixed sample meeting)
     alembic/versions/              Database migrations 0001-0004              (Kenneth)
-    tests/                         84 automated backend tests
+    tests/                         85 automated backend tests
 
   frontend/                        React web app
     src/pages/                     Landing, auth, dashboard, upload, record, meeting, series
@@ -273,7 +276,7 @@ allocation document (MeetCite_Task_Allocation).
     src/lib/useRecorder.ts         Browser recording (+ 16 kHz audio for captions)
     src/lib/useLiveCaptions.ts     Live captions connection
     src/lib/deadlines.ts           Spoken deadlines to dates; calendar files   (Chinonye)
-    src/test/                      29 unit tests
+    src/test/                      34 unit tests
     e2e/meetcite.spec.ts           5 end-to-end browser tests (also take screenshots)
     e2e/responsive.spec.ts         Every page and tab must fit 11 screen widths (320-1920px)
 
@@ -446,10 +449,10 @@ allocation document (MeetCite_Task_Allocation).
 
   Check                         Command                                        Result (Oct 2026)
   ----------------------------  ---------------------------------------------  ----------------
-  Backend tests (pytest)        cd backend; .venv\Scripts\python -m pytest     84 passing
+  Backend tests (pytest)        cd backend; .venv\Scripts\python -m pytest     85 passing
   Backend lint and format       ruff check app tests; ruff format --check      clean
   Backend types                 mypy app                                       clean
-  Web app unit tests (Vitest)   cd frontend; npm test                          29 passing
+  Web app unit tests (Vitest)   cd frontend; npm test                          34 passing
   Web app lint / types / build  npm run lint; npm run typecheck; npm run build clean
   End-to-end (Playwright)       npm run e2e  (stop the laptop's MeetCite API   6 passing
                                 first; the tests start their own in demo mode)

@@ -70,6 +70,9 @@ class MeetingListItem(ORM):
     decision_count: int = 0
     open_action_count: int = 0
     flagged_count: int = 0
+    # What still needs a person: unreviewed flagged claims, and decisions changed since earlier meetings.
+    review_needed_count: int = 0
+    change_count: int = 0
     series_id: int | None = None
     series_name: str | None = None
 

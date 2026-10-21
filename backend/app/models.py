@@ -141,6 +141,40 @@ class Meeting(Base):
         v = (self.summary.verification or {}) if self.summary else {}
         return int(v.get("partial", 0)) + int(v.get("unsupported", 0))
 
+    @property
+    def review_needed_count(self) -> int:
+        """Claims that still need a person to look at them: the same rule as the Evidence review tab
+        (partly or not supported, or no valid evidence), minus those the owner has already reviewed.
+        The plain C1 version cites nothing by design, so it has nothing to review."""
+        s = self.summary
+        if s is None or s.configuration == "baseline":
+            return 0
+        reviewed = {r.claim_key for r in self.claim_reviews if r.reviewer_id == self.user_id}
+
+        def flagged(item: Any) -> bool:
+            get = item.get if isinstance(item, dict) else lambda k, d=None: getattr(item, k, d)
+            return get("verdict") in ("partial", "unsupported") or get("evidence_status", "missing") in (
+                "missing",
+                "invalid",
+            )
+
+        claims: list[tuple[str, Any]] = [(f"summary:{s.id}:point:{i}", p) for i, p in enumerate(s.points or [])]
+        for t, topic in enumerate(s.topics or []):
+            claims.append((f"summary:{s.id}:topic:{t}", topic))
+            claims += [(f"summary:{s.id}:topic:{t}:position:{i}", p) for i, p in enumerate(topic.get("positions", []))]
+            claims += [(f"summary:{s.id}:topic:{t}:point:{i}", p) for i, p in enumerate(topic.get("points", []))]
+        claims += [(f"decision:{d.id}", d) for d in s.decisions]
+        claims += [(f"action:{a.id}", a) for a in s.action_items]
+        claims += [(f"summary:{s.id}:question:{i}", q) for i, q in enumerate(s.open_questions or [])]
+        claims += [(f"summary:{s.id}:risk:{i}", r) for i, r in enumerate(s.risks or [])]
+        return sum(1 for key, item in claims if flagged(item) and key not in reviewed)
+
+    @property
+    def change_count(self) -> int:
+        """Decisions that changed compared with earlier meetings in the same series."""
+        continuity = (self.summary.continuity or {}) if self.summary else {}
+        return len(continuity.get("contradictions") or [])
+
 
 class Job(Base):
     __tablename__ = "jobs"

@@ -36,8 +36,18 @@ test("user can process, edit, export and delete a meeting", async ({ page }) => 
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /your meetings/i })).toBeVisible();
   await expect(page.getByText("Audio transcribed")).toBeVisible();
+  // The home page says which meeting needs attention and why, and each reason opens the right tab.
+  const attention = page.getByRole("list", { name: "Meetings that need attention" });
+  await expect(attention.getByRole("link", { name: "launch planning" })).toBeVisible();
+  await expect(attention.getByRole("link", { name: /claims? to check/ })).toBeVisible();
   await page.screenshot({ path: "test-results/screens/dashboard.png", fullPage: true });
-  await page.getByRole("list", { name: "Meetings" }).getByRole("link", { name: "launch planning" }).click();
+  await attention.getByRole("link", { name: /claims? to check/ }).click();
+  await expect(page.getByRole("tab", { name: /Evidence review/ })).toHaveAttribute("aria-selected", "true");
+  await page.goto("/");
+  await page
+    .getByRole("list", { name: "Meetings", exact: true })
+    .getByRole("link", { name: "launch planning" })
+    .click();
   await expect(page.getByRole("tab", { name: /Summary/ })).toBeVisible();
 
   // The fact-checker flags the sample's invented claim.

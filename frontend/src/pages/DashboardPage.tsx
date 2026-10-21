@@ -20,13 +20,14 @@ import {
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Buddy, moodFor, useAnnouncedMood, type Mood } from "@/components/Buddy";
-import { DueSoonPanel, SeriesPanel } from "@/components/DashboardPanels";
+import { AttentionPanel, DueSoonPanel, ReasonLink, SeriesPanel } from "@/components/DashboardPanels";
 import { DeleteMeetingDialog } from "@/components/DeleteMeetingDialog";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/form";
 import { Alert, Card, ProgressBar, Spinner } from "@/components/ui/misc";
 import { api } from "@/lib/api";
+import { attentionList, type AttentionReason } from "@/lib/attention";
 import { useAuth } from "@/lib/auth";
 import type { MeetingListItem, MeetingStatusValue } from "@/lib/types";
 import { cn, formatDate, formatDuration } from "@/lib/utils";
@@ -105,13 +106,14 @@ function StatCard({
   );
 }
 
-type Filter = "all" | "completed" | "processing" | "failed";
+type Filter = "all" | "attention" | "completed" | "processing" | "failed";
 
-const FILTERS: { id: Filter; label: string; match: (s: MeetingStatusValue) => boolean }[] = [
+const FILTERS: { id: Filter; label: string; match: (m: MeetingListItem, needsAttention: Set<number>) => boolean }[] = [
   { id: "all", label: "All", match: () => true },
-  { id: "completed", label: "Ready", match: (s) => s === "completed" },
-  { id: "processing", label: "Processing", match: (s) => s === "processing" || s === "queued" },
-  { id: "failed", label: "Failed", match: (s) => s === "failed" },
+  { id: "attention", label: "Needs attention", match: (m, needs) => needs.has(m.id) },
+  { id: "completed", label: "Ready", match: (m) => m.status === "completed" },
+  { id: "processing", label: "Processing", match: (m) => m.status === "processing" || m.status === "queued" },
+  { id: "failed", label: "Failed", match: (m) => m.status === "failed" },
 ];
 
 const ACCENT: Record<MeetingStatusValue, string> = {
@@ -135,7 +137,15 @@ function Chip({ icon, children, warn }: { icon: ReactNode; children: ReactNode; 
   );
 }
 
-function MeetingCard({ m, onDelete }: { m: MeetingListItem; onDelete: () => void }) {
+function MeetingCard({
+  m,
+  reasons,
+  onDelete,
+}: {
+  m: MeetingListItem;
+  reasons: AttentionReason[];
+  onDelete: () => void;
+}) {
   const queryClient = useQueryClient();
   const retry = useMutation({
     mutationFn: () => api.retry(m.id),
@@ -190,13 +200,16 @@ function MeetingCard({ m, onDelete }: { m: MeetingListItem; onDelete: () => void
                   {m.decision_count} decision{m.decision_count === 1 ? "" : "s"}
                 </Chip>
                 <Chip icon={<ListTodo />}>{m.open_action_count} open actions</Chip>
-                {m.flagged_count > 0 && (
-                  <Chip icon={<ShieldAlert />} warn>
-                    {m.flagged_count} to review
-                  </Chip>
-                )}
               </div>
             </>
+          )}
+
+          {reasons.length > 0 && m.status === "completed" && (
+            <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Needs attention">
+              {reasons.map((r) => (
+                <ReasonLink key={r.kind} meetingId={m.id} reason={r} />
+              ))}
+            </div>
           )}
 
           {busy && (
@@ -253,17 +266,21 @@ export default function DashboardPage() {
   });
 
   const all = useMemo(() => meetings.data ?? [], [meetings.data]);
+  const openActions = useQuery({ queryKey: ["meetings", "__open-actions"], queryFn: api.openActions });
+  const attention = useMemo(() => attentionList(all, openActions.data ?? []), [all, openActions.data]);
+  const attentionById = useMemo(() => new Map(attention.map((a) => [a.meeting.id, a])), [attention]);
+  const needsAttention = useMemo(() => new Set(attentionById.keys()), [attentionById]);
   const stats = useMemo(() => {
     const ready = all.filter((m) => m.status === "completed");
     return {
       total: all.length,
       audio: ready.reduce((sum, m) => sum + (m.duration_s ?? 0), 0),
       openActions: ready.reduce((sum, m) => sum + m.open_action_count, 0),
-      flagged: ready.reduce((sum, m) => sum + m.flagged_count, 0),
+      toReview: ready.reduce((sum, m) => sum + m.review_needed_count, 0),
       busy: all.filter((m) => m.status === "processing" || m.status === "queued").length,
     };
   }, [all]);
-  const shown = all.filter((m) => FILTERS.find((f) => f.id === filter)!.match(m.status));
+  const shown = all.filter((m) => FILTERS.find((f) => f.id === filter)!.match(m, needsAttention));
   const working = all.find((m) => m.status === "processing" || m.status === "queued");
   const buddyMood = useAnnouncedMood(working ? moodFor(working.status, working.stage) : "idle");
   const firstName = user?.name?.split(" ")[0] ?? "";
@@ -311,6 +328,17 @@ export default function DashboardPage() {
         </div>
       </section>
 
+      {/* What needs someone, most urgent first */}
+      {all.some((m) => m.status === "completed" || m.status === "failed") && (
+        <AttentionPanel
+          items={attention}
+          onShowAll={() => {
+            setFilter("attention");
+            document.getElementById("library")?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
+      )}
+
       {/* At a glance */}
       <section aria-label="At a glance" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
@@ -337,8 +365,8 @@ export default function DashboardPage() {
         <StatCard
           icon={<ShieldAlert />}
           label="Claims to review"
-          value={stats.flagged}
-          hint="flagged by the evidence check"
+          value={stats.toReview}
+          hint="flagged and not yet checked"
           tone="bg-gradient-to-br from-rose-500 to-red-600"
         />
       </section>
@@ -357,7 +385,7 @@ export default function DashboardPage() {
           </h2>
           <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by status">
             {FILTERS.map((f) => {
-              const count = all.filter((m) => f.match(m.status)).length;
+              const count = all.filter((m) => f.match(m, needsAttention)).length;
               return (
                 <button
                   key={f.id}
@@ -424,7 +452,11 @@ export default function DashboardPage() {
 
         {all.length > 0 && shown.length === 0 && (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            {filter === "failed" ? <CheckCircle2 className="size-4" /> : <Clock className="size-4" />}
+            {filter === "failed" || filter === "attention" ? (
+              <CheckCircle2 className="size-4" />
+            ) : (
+              <Clock className="size-4" />
+            )}
             Nothing here right now.
           </p>
         )}
@@ -432,7 +464,12 @@ export default function DashboardPage() {
         {shown.length > 0 && (
           <ul aria-label="Meetings" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {shown.map((m) => (
-              <MeetingCard key={m.id} m={m} onDelete={() => setToDelete(m)} />
+              <MeetingCard
+                key={m.id}
+                m={m}
+                reasons={attentionById.get(m.id)?.reasons ?? []}
+                onDelete={() => setToDelete(m)}
+              />
             ))}
           </ul>
         )}

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlarmClock, ArrowRight, CheckCircle2, Layers, Plus } from "lucide-react";
+import { AlarmClock, ArrowRight, BellRing, CheckCircle2, Layers, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { momentLink } from "@/components/meeting/MemoryTab";
@@ -7,8 +7,102 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/form";
 import { Badge, Card } from "@/components/ui/misc";
 import { api } from "@/lib/api";
+import type { AttentionLevel, AttentionReason, MeetingAttention } from "@/lib/attention";
 import { dueLabel, parseDeadline } from "@/lib/deadlines";
 import { cn, formatDate } from "@/lib/utils";
+
+const LEVEL_NAME: Record<AttentionLevel, string> = { 3: "Urgent", 2: "Check", 1: "Heads-up" };
+const LEVEL_DOT: Record<AttentionLevel, string> = { 3: "bg-red-500", 2: "bg-amber-500", 1: "bg-sky-500" };
+export const REASON_TONE: Record<AttentionLevel, string> = {
+  3: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200",
+  2: "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
+  1: "bg-sky-100 text-sky-900 dark:bg-sky-950 dark:text-sky-200",
+};
+
+/** A reason chip that opens the meeting on the tab that deals with it. */
+export function ReasonLink({ meetingId, reason }: { meetingId: number; reason: AttentionReason }) {
+  return (
+    <Link
+      to={reason.tab ? `/meetings/${meetingId}?tab=${reason.tab}` : `/meetings/${meetingId}`}
+      className={cn(
+        "relative z-10 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium underline-offset-2 hover:underline",
+        REASON_TONE[reason.level],
+      )}
+    >
+      {reason.text}
+    </Link>
+  );
+}
+
+/**
+ * The meetings that need someone, most urgent first, each with what to do and a link straight to it.
+ * Shows "all caught up" once there is something to check but nothing needs doing.
+ */
+export function AttentionPanel({ items, onShowAll }: { items: MeetingAttention[]; onShowAll: () => void }) {
+  const shown = items.slice(0, 5);
+  return (
+    <section aria-labelledby="attention-heading" className="min-w-0 space-y-3">
+      <h2 id="attention-heading" className="flex items-center gap-2 text-xl font-semibold tracking-tight">
+        <BellRing className="size-5 text-primary" aria-hidden /> Needs your attention
+        {items.length > 0 && (
+          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold tabular-nums text-primary-foreground">
+            {items.length}
+          </span>
+        )}
+      </h2>
+      {items.length === 0 ? (
+        <Card className="flex items-center gap-3 p-5 text-sm">
+          <CheckCircle2 className="size-5 shrink-0 text-emerald-600" aria-hidden />
+          <span>
+            <strong>All caught up.</strong>{" "}
+            <span className="text-muted-foreground">
+              No failed uploads, overdue actions, changed decisions or claims waiting to be checked.
+            </span>
+          </span>
+        </Card>
+      ) : (
+        <Card className="divide-y overflow-hidden">
+          <ul aria-label="Meetings that need attention" className="divide-y">
+            {shown.map(({ meeting: m, reasons, level }) => (
+              <li key={m.id} className="flex gap-3 p-4">
+                <span
+                  className={cn("mt-1.5 size-2.5 shrink-0 rounded-full", level ? LEVEL_DOT[level] : "")}
+                  aria-hidden
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="flex flex-wrap items-baseline gap-x-2">
+                    <Link to={`/meetings/${m.id}`} className="font-medium underline-offset-4 hover:underline">
+                      {m.title}
+                    </Link>
+                    {level > 0 && <span className="sr-only">{LEVEL_NAME[level as AttentionLevel]}:</span>}
+                    <span className="text-xs text-muted-foreground">
+                      {formatDate(m.created_at)}
+                      {m.series_name ? ` · ${m.series_name}` : ""}
+                    </span>
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {reasons.map((r) => (
+                      <ReasonLink key={r.kind} meetingId={m.id} reason={r} />
+                    ))}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {items.length > shown.length && (
+            <button
+              type="button"
+              onClick={onShowAll}
+              className="w-full p-3 text-sm font-medium text-primary hover:bg-muted"
+            >
+              Show all {items.length} in the library
+            </button>
+          )}
+        </Card>
+      )}
+    </section>
+  );
+}
 
 /** The user's meeting series (project memory), with a quick way to start a new one. */
 export function SeriesPanel() {
