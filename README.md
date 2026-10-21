@@ -326,8 +326,9 @@ Deleting a user or meeting cascades to all related data and files; deleting a se
 - UK GDPR: data minimisation, storage limitation, right to erasure.
 - **No participant testing or new research recordings before university ethical approval.** Use the public AMI
   Meeting Corpus for the accuracy evaluation wherever possible.
-- **To do before the user study:** update [the consent form](research/user_study/consent_form.md), which says
-  recordings are processed "on the researcher's computer only", to describe cloud processing if the live site is used.
+- **User study design:** participants review one pre-processed AMI meeting with code-only test accounts; nobody is
+  recorded and no participant data reaches the cloud services. Ethics documents are in `docs/ethics/`, and the
+  repository copies are [the protocol](research/user_study/protocol.md) and [consent form](research/user_study/consent_form.md).
 
 ## Research and evaluation
 

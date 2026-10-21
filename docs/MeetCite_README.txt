@@ -577,9 +577,10 @@ allocation document (MeetCite_Task_Allocation).
     ethical approval is granted (it cannot be granted after the fact). The supervisor is
     confirming the route for recording and storage. Use the public AMI Meeting Corpus for the
     accuracy evaluation wherever possible.
-  * TO DO before the user study: the consent form (research/user_study/consent_form.md) says
-    recordings are processed "on the researcher's computer only"; update it to say where data
-    actually goes if the live cloud site is used.
+  * User study design: participants review one pre-processed AMI meeting with code-only test
+    accounts; nobody is recorded and no participant data reaches the cloud services. Ethics
+    documents: docs/ethics/ (Participant Information Sheet, Consent Form, Study Protocol and
+    Questionnaire, form answers).
 
 
 ===============================================================================================
@@ -669,7 +670,6 @@ allocation document (MeetCite_Task_Allocation).
   * Regular off-server backup copies.
   * Supervisor-meeting export in the UWS Project Process Documentation template.
   * After ethical approval: user study (SUS) and the C1 vs C2 evaluation.
-  * Update the consent form wording for cloud processing.
 
 
 ===============================================================================================
